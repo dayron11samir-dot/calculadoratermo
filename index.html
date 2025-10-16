@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Termodinámica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .calc-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .calc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .calc-card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 1s ease-in;
+        }
+
+        .info-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .formula {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            border-radius: 5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 Termodinámica Calculadora</h1>
+            <p class="subtitle">Calculadora de leyes y procesos termodinámicos</p>
+        </header>
+
+        <div class="calculator-grid">
+            <!-- Ley de los Gases Ideales -->
+            <div class="calc-card">
+                <h2>Ley de los Gases Ideales</h2>
+                <div class="input-group">
+                    <label>Presión (P) - atm:</label>
+                    <input type="number" id="pressure" step="0.01" placeholder="Ej: 1">
+                </div>
+                <div class="input-group">
+                    <label>Volumen (V) - litros:</label>
+                    <input type="number" id="volume" step="0.01" placeholder="Ej: 22.4">
+                </div>
+                <div class="input-group">
+                    <label>Moles (n):</label>
+                    <input type="number" id="moles" step="0.01" placeholder="Ej: 1">
+                </div>
+                <div class="input-group">
+                    <label>Calcular:</label>
+                    <select id="idealGasCalc">
+                        <option value="T">Temperatura (T)</option>
+                        <option value="P">Presión (P)</option>
+                        <option value="V">Volumen (V)</option>
+                        <option value="n">Moles (n)</option>
+                    </select>
+                </div>
+                <button onclick="calcIdealGas()">Calcular</button>
+                <div class="result" id="idealGasResult">PV = nRT (R = 0.0821 L·atm/mol·K)</div>
+            </div>
+
+            <!-- Ciclo de Carnot -->
+            <div class="calc-card">
+                <h2>Eficiencia de Carnot</h2>
+                <div class="input-group">
+                    <label>Temperatura caliente (Th) - K:</label>
+                    <input type="number" id="tempHot" step="0.01" placeholder="Ej: 500">
+                </div>
+                <div class="input-group">
+                    <label>Temperatura fría (Tc) - K:</label>
+                    <input type="number" id="tempCold" step="0.01" placeholder="Ej: 300">
+                </div>
+                <button onclick="calcCarnot()">Calcular Eficiencia</button>
+                <div class="result" id="carnotResult">η = 1 - (Tc/Th)</div>
+            </div>
+
+            <!-- Primera Ley de la Termodinámica -->
+            <div class="calc-card">
+                <h2>Primera Ley (ΔU = Q - W)</h2>
+                <div class="input-group">
+                    <label>Calor (Q) - Julios:</label>
+                    <input type="number" id="heat" step="0.01" placeholder="Ej: 1000">
+                </div>
+                <div class="input-group">
+                    <label>Trabajo (W) - Julios:</label>
+                    <input type="number" id="work" step="0.01" placeholder="Ej: 300">
+                </div>
+                <button onclick="calcFirstLaw()">Calcular ΔU</button>
+                <div class="result" id="firstLawResult">Energía Interna</div>
+            </div>
+
+            <!-- Entropía -->
+            <div class="calc-card">
+                <h2>Cambio de Entropía</h2>
+                <div class="input-group">
+                    <label>Calor (Q) - Julios:</label>
+                    <input type="number" id="entropyHeat" step="0.01" placeholder="Ej: 500">
+                </div>
+                <div class="input-group">
+                    <label>Temperatura (T) - K:</label>
+                    <input type="number" id="entropyTemp" step="0.01" placeholder="Ej: 298">
+                </div>
+                <button onclick="calcEntropy()">Calcular ΔS</button>
+                <div class="result" id="entropyResult">ΔS = Q/T</div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>📚 Fórmulas Termodinámicas</h2>
+            <div class="formula">
+                <strong>Ley de Gases Ideales:</strong> PV = nRT
+                <br>Donde R = 0.0821 L·atm/(mol·K) = 8.314 J/(mol·K)
+            </div>
+            <div class="formula">
+                <strong>Eficiencia de Carnot:</strong> η = 1 - (Tc/Th)
+                <br>η = eficiencia, Tc = temperatura fría, Th = temperatura caliente
+            </div>
+            <div class="formula">
+                <strong>Primera Ley:</strong> ΔU = Q - W
+                <br>ΔU = cambio de energía interna, Q = calor añadido, W = trabajo realizado
+            </div>
+            <div class="formula">
+                <strong>Entropía:</strong> ΔS = Q/T
+                <br>Para procesos reversibles a temperatura constante
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const R = 0.0821; // L·atm/(mol·K)
+
+        function calcIdealGas() {
+            const p = parseFloat(document.getElementById('pressure').value);
+            const v = parseFloat(document.getElementById('volume').value);
+            const n = parseFloat(document.getElementById('moles').value);
+            const calc = document.getElementById('idealGasCalc').value;
+            let result = '';
+
+            if (calc === 'T') {
+                if (isNaN(p) || isNaN(v) || isNaN(n)) {
+                    result = 'Por favor ingresa P, V y n';
+                } else {
+                    const t = (p * v) / (n * R);
+                    result = `Temperatura: ${t.toFixed(2)} K (${(t - 273.15).toFixed(2)} °C)`;
+                }
+            } else if (calc === 'P') {
+                const t = parseFloat(prompt('Ingresa la temperatura (K):'));
+                if (!isNaN(v) && !isNaN(n) && !isNaN(t)) {
+                    const pressure = (n * R * t) / v;
+                    result = `Presión: ${pressure.toFixed(4)} atm`;
+                }
+            } else if (calc === 'V') {
+                const t = parseFloat(prompt('Ingresa la temperatura (K):'));
+                if (!isNaN(p) && !isNaN(n) && !isNaN(t)) {
+                    const vol = (n * R * t) / p;
+                    result = `Volumen: ${vol.toFixed(4)} L`;
+                }
+            } else if (calc === 'n') {
+                const t = parseFloat(prompt('Ingresa la temperatura (K):'));
+                if (!isNaN(p) && !isNaN(v) && !isNaN(t)) {
+                    const moles = (p * v) / (R * t);
+                    result = `Moles: ${moles.toFixed(4)} mol`;
+                }
+            }
+
+            document.getElementById('idealGasResult').textContent = result || 'Error en el cálculo';
+        }
+
+        function calcCarnot() {
+            const th = parseFloat(document.getElementById('tempHot').value);
+            const tc = parseFloat(document.getElementById('tempCold').value);
+
+            if (isNaN(th) || isNaN(tc)) {
+                document.getElementById('carnotResult').textContent = 'Ingresa ambas temperaturas';
+                return;
+            }
+
+            if (tc >= th) {
+                document.getElementById('carnotResult').textContent = 'Tc debe ser menor que Th';
+                return;
+            }
+
+            const eff = (1 - (tc / th)) * 100;
+            document.getElementById('carnotResult').textContent = 
+                `Eficiencia: ${eff.toFixed(2)}% | η = ${(eff/100).toFixed(4)}`;
+        }
+
+        function calcFirstLaw() {
+            const q = parseFloat(document.getElementById('heat').value);
+            const w = parseFloat(document.getElementById('work').value);
+
+            if (isNaN(q) || isNaN(w)) {
+                document.getElementById('firstLawResult').textContent = 'Ingresa Q y W';
+                return;
+            }
+
+            const deltaU = q - w;
+            document.getElementById('firstLawResult').textContent = 
+                `ΔU = ${deltaU.toFixed(2)} J | Cambio de Energía Interna`;
+        }
+
+        function calcEntropy() {
+            const q = parseFloat(document.getElementById('entropyHeat').value);
+            const t = parseFloat(document.getElementById('entropyTemp').value);
+
+            if (isNaN(q) || isNaN(t)) {
+                document.getElementById('entropyResult').textContent = 'Ingresa Q y T';
+                return;
+            }
+
+            if (t <= 0) {
+                document.getElementById('entropyResult').textContent = 'T debe ser mayor que 0 K';
+                return;
+            }
+
+            const deltaS = q / t;
+            document.getElementById('entropyResult').textContent = 
+                `ΔS = ${deltaS.toFixed(4)} J/K | Cambio de Entropía`;
+        }
+    </script>
+</body>
+</html>
